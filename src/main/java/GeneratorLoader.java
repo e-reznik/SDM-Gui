@@ -35,18 +35,24 @@ public class GeneratorLoader implements Serializable, IProperties {
         list.add(new ProductList(ProductTypes.WEIN, Wines.values(), productVars.getNumWine()));
         list.add(new ProductList(ProductTypes.AEPFEL, Apples.values(), productVars.getNumApples()));
 
-        try {
-            productGenerator.generate(list, "/home/evgenij/products.csv");
+        if (productVars.getNumApples() > 0
+                || productVars.getNumCheese() > 0
+                || productVars.getNumWine() > 0) {
+            try {
+                productGenerator.generate(list, "/home/evgenij/products.csv");
 
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Erfolg", "Die CSV wurde erfolgreich generiert.");
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Erfolg", "Die CSV wurde erfolgreich generiert.");
+                PrimeFaces.current().dialog().showMessageDynamic(message);
+
+            } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler", "Beim Generieren der CSV ist ein Fehler aufgetreten.");
+                PrimeFaces.current().dialog().showMessageDynamic(message);
+
+                Logger.getLogger(GeneratorLoader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Leere CSV", "Eine leere CSV kann nicht verarbeitet werden.\nBitte wählen Sie mindestens 1 Produkt.");
             PrimeFaces.current().dialog().showMessageDynamic(message);
-
-        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException ex) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler", "Beim Generieren der CSV ist ein Fehler aufgetreten.");
-            PrimeFaces.current().dialog().showMessageDynamic(message);
-
-            Logger.getLogger(GeneratorLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

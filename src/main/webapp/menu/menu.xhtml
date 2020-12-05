@@ -1,0 +1,16 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="Startseite" outcome="index" icon="pi pi-home" />
+            <p:menuitem value="Neue CSV generieren" outcome="generate" icon="pi pi-pencil" />
+            <p:submenu label="Produkte verarbeiten" icon="pi pi-cog">
+                <p:menuitem value="Aus CSV laden und verarbeiten" outcome="process" icon="pi pi-file" />
+                <p:menuitem value="Aus DB laden und verarbeiten" outcome="process" icon="pi pi-bars" />
+            </p:submenu>
+        </p:menubar>
+    </h:form>
+</ui:composition>
