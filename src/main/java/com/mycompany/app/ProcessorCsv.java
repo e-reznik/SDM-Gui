@@ -1,3 +1,4 @@
+package com.mycompany.app;
 
 import com.mycompany.sdm.Processor;
 import com.mycompany.sdm.Reader;
@@ -30,7 +31,7 @@ public class ProcessorCsv implements Serializable, IProperties {
     private boolean disabled = true;
     private int days;
 
-    private Map<ProductTypes, Properties> qualitiesMap = qualities;
+    private final Map<ProductTypes, Properties> qualitiesMap = qualities;
 
     private List<Product> products;
     private static final Logger LOG = Logger.getLogger(ProcessorCsv.class.getName());
@@ -44,12 +45,11 @@ public class ProcessorCsv implements Serializable, IProperties {
 
     public void upload(FileUploadEvent event) {
         file = event.getFile();
-        String fileName = file.getFileName();
 
         try {
             isr = new InputStreamReader(file.getInputStream());
         } catch (IOException ex) {
-            Logger.getLogger(ProcessorCsv.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
 
         setDisabled(false);
@@ -66,7 +66,7 @@ public class ProcessorCsv implements Serializable, IProperties {
         } catch (FileNotFoundException ex) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "CSV nicht gefunden", "Die CSV wurde nicht gefunden: " + ex);
             PrimeFaces.current().dialog().showMessageDynamic(message);
-            Logger.getLogger(ProcessorLoader.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }
 

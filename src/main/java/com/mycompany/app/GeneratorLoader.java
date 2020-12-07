@@ -1,3 +1,4 @@
+package com.mycompany.app;
 
 import com.mycompany.sdmcsvgenerator.interfaces.IProperties.Apples;
 import com.mycompany.sdmcsvgenerator.interfaces.IProperties.Cheeses;
@@ -7,7 +8,7 @@ import com.mycompany.sdmcsvgenerator.logic.ProductGenerator;
 import com.mycompany.sdmcsvgenerator.model.ProductList;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import dto.ProductVars;
+import com.mycompany.dto.ProductVars;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import org.primefaces.PrimeFaces;
 
 @Named
 @RequestScoped
-public class GeneratorLoader implements Serializable{
+public class GeneratorLoader implements Serializable {
 
 // TODO: Inject
     private ProductGenerator productGenerator = new ProductGenerator();

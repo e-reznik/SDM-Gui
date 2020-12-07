@@ -1,4 +1,4 @@
-package dto;
+package com.mycompany.dto;
 
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;

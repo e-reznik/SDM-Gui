@@ -1,4 +1,4 @@
-package dto;
+package com.mycompany.dto;
 
 import com.mycompany.sdm.interfaces.IProperties;
 
