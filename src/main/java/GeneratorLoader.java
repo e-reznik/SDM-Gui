@@ -1,7 +1,10 @@
 
-import com.mycompany.sdm.interfaces.IProperties;
-import com.mycompany.sdm.logic.ProductGenerator;
-import com.mycompany.sdm.model.ProductList;
+import com.mycompany.sdmcsvgenerator.interfaces.IProperties.Apples;
+import com.mycompany.sdmcsvgenerator.interfaces.IProperties.Cheeses;
+import com.mycompany.sdmcsvgenerator.interfaces.IProperties.ProductTypes;
+import com.mycompany.sdmcsvgenerator.interfaces.IProperties.Wines;
+import com.mycompany.sdmcsvgenerator.logic.ProductGenerator;
+import com.mycompany.sdmcsvgenerator.model.ProductList;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import dto.ProductVars;
@@ -19,7 +22,7 @@ import org.primefaces.PrimeFaces;
 
 @Named
 @RequestScoped
-public class GeneratorLoader implements Serializable, IProperties {
+public class GeneratorLoader implements Serializable{
 
 // TODO: Inject
     private ProductGenerator productGenerator = new ProductGenerator();

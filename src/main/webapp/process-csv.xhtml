@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Produkte aus CSV verarbeiten</title>
+        <style type="text/css">
+            .disposable{
+                background-color: #ff3d31 !important;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <ui:include src="menu/menu.xhtml" />
+
+        <h:form enctype="multipart/form-data"> 
+            <h:outputLabel value="CSV auswählen" />
+            <p:fileUpload listener="#{processorCsv.upload}" auto="true" dragDropSupport="true" allowTypes="#{processorCsv.allowedTypes}" update="bottom" />
+        </h:form>
+
+        <h:form id="bottom">
+            <h:outputLabel value="Anzahl Tage:" />
+            <p:spinner value="#{processorCsv.days}" min="1" max="365" />  
+
+            <p:commandButton value="Verarbeiten" action="#{processorCsv.process()}" disabled="#{processorCsv.disabled}" update="bottom" />
+
+            <p:dataTable var="product" value="#{processorCsv.products}" rowStyleClass="#{product.disposable ? 'disposable' : ''}" paginator="true" sortMode="multiple">
+                <p:column headerText="Title" sortBy="#{product.title}">
+                    <h:outputText value="#{product.title}" />
+                </p:column>
+                <p:column headerText="Type" sortBy="#{product.type}">
+                    <h:outputText value="#{product.type}" />
+                </p:column>
+                <p:column headerText="Quality" sortBy="#{product.quality}">
+                    <h:outputText value="#{product.quality}" />
+                </p:column>
+                <p:column headerText="MHD" sortBy="#{product.bestBefore}">
+                    <h:outputText value="#{processorCsv.addDays(product.bestBefore)}">
+                        <f:convertDateTime type="date" pattern="dd.MM.yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Preis" sortBy="#{product.price}">
+                    <h:outputText value="#{product.price}">
+                        <f:convertNumber pattern="¤,##" currencySymbol="€" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Aussortieren?" sortBy="#{product.disposable}"   >
+                    <h:outputText value="#{product.disposable ? 'Ja' : 'Nein'}" />
+                </p:column>
+            </p:dataTable>            
+        </h:form>
+    </h:body>
+</html>
+

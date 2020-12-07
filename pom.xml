@@ -35,11 +35,11 @@
             <artifactId>SDM-CSV-Generator</artifactId>
             <version>${project.version}</version>
         </dependency>
-<!--        <dependency>
+       <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>SDM</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
     
