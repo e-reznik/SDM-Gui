@@ -16,10 +16,21 @@
     <h:body>
         <ui:include src="menu/menu.xhtml" />
 
-        <h:form enctype="multipart/form-data"> 
-            <h:outputLabel value="CSV auswählen" />
-            <p:fileUpload listener="#{processorCsv.upload}" auto="true" dragDropSupport="true" allowTypes="#{processorCsv.ALLOWEDTYPES}" update="bottom" />
-        </h:form>
+        <p:tabView>
+            <p:tab title="Von CSV">
+                <h:panelGrid>
+                    <h:form enctype="multipart/form-data"> 
+                        <h:outputLabel value="CSV auswählen" />
+                        <p:fileUpload listener="#{processorCsv.upload}" auto="true" dragDropSupport="true" allowTypes="#{processorCsv.ALLOWEDTYPES}" update="bottom" />
+                    </h:form>
+                </h:panelGrid>
+            </p:tab>
+            <p:tab title="Aus DB">
+                <h:panelGrid>
+                    <h:outputLabel value="DB" />
+                </h:panelGrid>
+            </p:tab>
+        </p:tabView>
 
         <h:form id="bottom">
             <h:outputLabel value="Anzahl Tage:" />
