@@ -4,7 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" lang="en">
     <h:head>
         <title>Produkte aus CSV verarbeiten</title>
         <style type="text/css">
@@ -18,7 +18,7 @@
 
         <h:form enctype="multipart/form-data"> 
             <h:outputLabel value="CSV auswählen" />
-            <p:fileUpload listener="#{processorCsv.upload}" auto="true" dragDropSupport="true" allowTypes="#{processorCsv.allowedTypes}" update="bottom" />
+            <p:fileUpload listener="#{processorCsv.upload}" auto="true" dragDropSupport="true" allowTypes="#{processorCsv.ALLOWEDTYPES}" update="bottom" />
         </h:form>
 
         <h:form id="bottom">

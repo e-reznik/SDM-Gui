@@ -31,6 +31,10 @@ public class GeneratorLoader implements Serializable {
     @Inject
     ProductVars productVars;
 
+    /**
+     * Ruft die CSV-Generierungs-Methode auf und übergibt die nötigen Parameter
+     * aus der GUI.
+     */
     public void generateProducts() {
 
         List<ProductList> list = new ArrayList<>();

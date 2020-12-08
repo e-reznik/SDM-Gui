@@ -5,7 +5,6 @@ import com.mycompany.sdm.Reader;
 import com.mycompany.sdm.dto.Product;
 import com.mycompany.sdm.dto.Properties;
 import com.mycompany.sdm.interfaces.IProperties;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -16,9 +15,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.inject.Named;
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
@@ -30,6 +27,7 @@ public class ProcessorCsv implements Serializable, IProperties {
     private InputStreamReader isr = null;
     private boolean disabled = true;
     private int days;
+    private final static String ALLOWEDTYPES = "/(csv)$/";
 
     private final Map<ProductTypes, Properties> qualitiesMap = qualities;
 
@@ -39,10 +37,11 @@ public class ProcessorCsv implements Serializable, IProperties {
     public ProcessorCsv() {
     }
 
-    public String getAllowedTypes() {
-        return "/(csv)$/";
-    }
-
+    /**
+     * Zuständig für den Upload der CSV.
+     *
+     * @param event
+     */
     public void upload(FileUploadEvent event) {
         file = event.getFile();
 
@@ -52,41 +51,46 @@ public class ProcessorCsv implements Serializable, IProperties {
             LOG.log(Level.SEVERE, null, ex);
         }
 
+        // Setzt den Prozess-Button auf enabled
         setDisabled(false);
     }
 
+    /**
+     * Liest die Produkte aus der CSV ein.
+     */
     public void process() {
         Reader reader = new Reader();
 
-        try {
-            products = reader.read(isr);
-            LOG.log(Level.INFO, products.toString());
-            read(products);
-            setDisabled(true);
-        } catch (FileNotFoundException ex) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "CSV nicht gefunden", "Die CSV wurde nicht gefunden: " + ex);
-            PrimeFaces.current().dialog().showMessageDynamic(message);
-            LOG.log(Level.SEVERE, null, ex);
-        }
+        products = reader.read(isr);
+        LOG.log(Level.INFO, products.toString());
+        read(products);
+        // Setzt den Prozess-Button auf disabled
+        setDisabled(true);
     }
 
+    /**
+     * Führt die Process-Methode mit den zuvor eingelesenen Produkten und der
+     * Anzahl der Tagen (Iterationen) aus.
+     *
+     * @param products Liste mit den zu verarbeitenden Produkten
+     */
     private void read(List<Product> products) {
         Processor processor = new Processor();
         processor.process(products, getDays());
     }
 
     /**
-     * Berechnet x Tage in die Zukunft.
+     * Berechnet x Tage in die Zukunft. Nötig, um das MHZ als Datum anzeigen zu
+     * können.
      *
-     * @param days
-     * @return
+     * @param days Anzahl der gewünschten Tage in der Zukunft
+     * @return Datum: Heute + Anzahl der Tage
      */
     public Date addDays(int days) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, days);
         return cal.getTime();
     }
-
 
     /* g & s */
     public UploadedFile getFile() {
@@ -127,5 +131,9 @@ public class ProcessorCsv implements Serializable, IProperties {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public String getALLOWEDTYPES() {
+        return ALLOWEDTYPES;
     }
 }
