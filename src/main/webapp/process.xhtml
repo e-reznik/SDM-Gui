@@ -15,28 +15,27 @@
     </h:head>
     <h:body>
         <ui:include src="menu/menu.xhtml" />
-
-        <p:tabView>
-            <p:tab title="Von CSV">
-                <h:panelGrid>
-                    <h:form enctype="multipart/form-data"> 
+        <h:form enctype="multipart/form-data"> 
+            <p:tabView >
+                <p:ajax event="tabChange" listener="#{helper.onTabChanged}" update="bottom" />
+                <p:tab title="Von CSV" id="tabcsv">
+                    <h:panelGrid>
                         <h:outputLabel value="CSV auswählen" />
                         <p:fileUpload listener="#{processorCsv.upload}" auto="true" dragDropSupport="true" allowTypes="#{processorCsv.ALLOWEDTYPES}" update="bottom" />
-                    </h:form>
-                </h:panelGrid>
-            </p:tab>
-            <p:tab title="Aus DB">
-                <h:panelGrid>
-                    <h:outputLabel value="DB" />
-                </h:panelGrid>
-            </p:tab>
-        </p:tabView>
-
+                    </h:panelGrid>
+                </p:tab>
+                <p:tab title="Aus DB" id="tabdb">
+                    <h:panelGrid>
+                        <h:outputLabel value="DB" />
+                    </h:panelGrid>
+                </p:tab>
+            </p:tabView>
+        </h:form>
         <h:form id="bottom">
             <h:outputLabel value="Anzahl Tage:" />
             <p:spinner value="#{processorCsv.days}" min="1" max="365" />  
 
-            <p:commandButton value="Verarbeiten" action="#{processorCsv.process()}" disabled="#{processorCsv.disabled}" update="bottom" />
+            <p:commandButton value="Verarbeiten" action="#{processorCsv.process()}" disabled="#{helper.disabled}" update="bottom" />
 
             <p:dataTable var="product" value="#{processorCsv.products}" rowStyleClass="#{product.disposable ? 'disposable' : ''}" paginator="true" sortMode="multiple">
                 <p:column headerText="Title" sortBy="#{product.title}">
@@ -49,7 +48,7 @@
                     <h:outputText value="#{product.quality}" />
                 </p:column>
                 <p:column headerText="MHD" sortBy="#{product.bestBefore}">
-                    <h:outputText value="#{processorCsv.addDays(product.bestBefore)}">
+                    <h:outputText value="#{helper.addDays(product.bestBefore)}">
                         <f:convertDateTime type="date" pattern="dd.MM.yyyy" />
                     </h:outputText>
                 </p:column>

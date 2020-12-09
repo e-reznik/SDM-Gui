@@ -3,33 +3,34 @@ package com.mycompany.app;
 import com.mycompany.sdm.Processor;
 import com.mycompany.sdm.Reader;
 import com.mycompany.sdm.dto.Product;
-import com.mycompany.sdm.dto.Properties;
-import com.mycompany.sdm.interfaces.IProperties;
+import com.mycompany.sdm.dto.ProductProperties;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
+import com.mycompany.sdm.interfaces.Properties;
 
 @Named
 @SessionScoped
-public class ProcessorCsv implements Serializable, IProperties {
+public class ProcessorCsv implements Serializable, Properties {
+
+    @Inject
+    Helper helper;
 
     private UploadedFile file;
     private InputStreamReader isr = null;
-    private boolean disabled = true;
     private int days;
     private final static String ALLOWEDTYPES = "/(csv)$/";
 
-    private final Map<ProductTypes, Properties> qualitiesMap = qualities;
+    private final Map<ProductTypes, ProductProperties> qualitiesMap = qualities;
 
     private List<Product> products;
     private static final Logger LOG = Logger.getLogger(ProcessorCsv.class.getName());
@@ -52,20 +53,42 @@ public class ProcessorCsv implements Serializable, IProperties {
         }
 
         // Setzt den Prozess-Button auf enabled
-        setDisabled(false);
+        helper.setDisabled(false);
+    }
+
+    public void process() throws IOException {
+        int activeIndex = helper.getActiveIndex();
+        if (activeIndex == 0) {
+            processCsv();
+        } else if (activeIndex == 1) {
+            processDb();
+        }
     }
 
     /**
      * Liest die Produkte aus der CSV ein.
      */
-    public void process() {
+    public void processCsv() {
         Reader reader = new Reader();
 
         products = reader.read(isr);
         LOG.log(Level.INFO, products.toString());
         read(products);
         // Setzt den Prozess-Button auf disabled
-        setDisabled(true);
+        helper.setDisabled(true);
+    }
+
+    /**
+     * Liest die Produkte aus der DB ein.
+     */
+    public void processDb() {
+        Reader reader = new Reader();
+
+        products = reader.read();
+        LOG.log(Level.INFO, products.toString());
+        read(products);
+        // Setzt den Prozess-Button auf disabled
+        helper.setDisabled(true);
     }
 
     /**
@@ -77,19 +100,6 @@ public class ProcessorCsv implements Serializable, IProperties {
     private void read(List<Product> products) {
         Processor processor = new Processor();
         processor.process(products, getDays());
-    }
-
-    /**
-     * Berechnet x Tage in die Zukunft. Nötig, um das MHZ als Datum anzeigen zu
-     * können.
-     *
-     * @param days Anzahl der gewünschten Tage in der Zukunft
-     * @return Datum: Heute + Anzahl der Tage
-     */
-    public Date addDays(int days) {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, days);
-        return cal.getTime();
     }
 
     /* g & s */
@@ -107,14 +117,6 @@ public class ProcessorCsv implements Serializable, IProperties {
 
     public void setIsr(InputStreamReader isr) {
         this.isr = isr;
-    }
-
-    public boolean isDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
     }
 
     public int getDays() {

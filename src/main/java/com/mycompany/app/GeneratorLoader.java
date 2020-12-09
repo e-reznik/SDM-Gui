@@ -1,9 +1,9 @@
 package com.mycompany.app;
 
-import com.mycompany.sdmcsvgenerator.interfaces.IProperties.Apples;
-import com.mycompany.sdmcsvgenerator.interfaces.IProperties.Cheeses;
-import com.mycompany.sdmcsvgenerator.interfaces.IProperties.ProductTypes;
-import com.mycompany.sdmcsvgenerator.interfaces.IProperties.Wines;
+import com.mycompany.sdmcsvgenerator.interfaces.Properties.Apples;
+import com.mycompany.sdmcsvgenerator.interfaces.Properties.Cheeses;
+import com.mycompany.sdmcsvgenerator.interfaces.Properties.ProductTypes;
+import com.mycompany.sdmcsvgenerator.interfaces.Properties.Wines;
 import com.mycompany.sdmcsvgenerator.logic.ProductGenerator;
 import com.mycompany.sdmcsvgenerator.model.ProductList;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;

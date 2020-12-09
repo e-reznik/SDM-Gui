@@ -1,10 +1,10 @@
 package com.mycompany.dto;
 
-import com.mycompany.sdm.interfaces.IProperties;
+import com.mycompany.sdm.interfaces.Properties;
 
 public class Product {
 
-    private IProperties.ProductTypes type;
+    private Properties.ProductTypes type;
     private String title;
     private int quality;
     private int bestBefore;
@@ -12,7 +12,7 @@ public class Product {
     private boolean disposable;
     private Long id;
 
-    public Product(IProperties.ProductTypes type, String title, int quality, int bestBefore, double price, boolean disposable, Long id) {
+    public Product(Properties.ProductTypes type, String title, int quality, int bestBefore, double price, boolean disposable, Long id) {
         this.type = type;
         this.title = title;
         this.quality = quality;
@@ -22,11 +22,11 @@ public class Product {
         this.id = id;
     }
 
-    public IProperties.ProductTypes getType() {
+    public Properties.ProductTypes getType() {
         return type;
     }
 
-    public void setType(IProperties.ProductTypes type) {
+    public void setType(Properties.ProductTypes type) {
         this.type = type;
     }
 
