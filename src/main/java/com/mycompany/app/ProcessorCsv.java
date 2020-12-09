@@ -23,7 +23,7 @@ import com.mycompany.sdm.interfaces.Properties;
 public class ProcessorCsv implements Serializable, Properties {
 
     @Inject
-    Helper helper;
+    private Helper helper;
 
     private UploadedFile file;
     private InputStreamReader isr = null;

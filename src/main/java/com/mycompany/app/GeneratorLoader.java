@@ -25,11 +25,10 @@ import org.primefaces.PrimeFaces;
 @RequestScoped
 public class GeneratorLoader implements Serializable {
 
-// TODO: Inject
     private ProductGenerator productGenerator = new ProductGenerator();
 
     @Inject
-    ProductVars productVars;
+    private ProductVars productVars;
 
     /**
      * Ruft die CSV-Generierungs-Methode auf und übergibt die nötigen Parameter
