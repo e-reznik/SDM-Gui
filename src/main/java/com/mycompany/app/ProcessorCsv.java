@@ -3,12 +3,10 @@ package com.mycompany.app;
 import com.mycompany.sdm.Processor;
 import com.mycompany.sdm.Reader;
 import com.mycompany.sdm.dto.Product;
-import com.mycompany.sdm.dto.ProductProperties;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
@@ -29,8 +27,6 @@ public class ProcessorCsv implements Serializable, Properties {
     private InputStreamReader isr = null;
     private int days;
     private final static String ALLOWEDTYPES = "/(csv)$/";
-
-    private final Map<ProductTypes, ProductProperties> qualitiesMap = qualities;
 
     private List<Product> products;
     private static final Logger LOG = Logger.getLogger(ProcessorCsv.class.getName());
@@ -56,6 +52,12 @@ public class ProcessorCsv implements Serializable, Properties {
         helper.setDisabled(false);
     }
 
+    /**
+     * Je nach aktivem Tab (CSV oder DB), wird die entsprechende Methode
+     * aufgerufen.
+     *
+     * @throws IOException
+     */
     public void process() throws IOException {
         int activeIndex = helper.getActiveIndex();
         if (activeIndex == 0) {
